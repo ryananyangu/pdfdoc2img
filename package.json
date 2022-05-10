@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cloudinary": "^1.29.1",
     "next": "12.1.6",
+    "pdfjs-dist": "2.7.570",
     "react": "18.1.0",
     "react-dom": "18.1.0"
   },
