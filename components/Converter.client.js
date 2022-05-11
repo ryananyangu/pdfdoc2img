@@ -40,27 +40,27 @@ export default function Converter() {
   };
 
   const pageRender = () => {
-    pdfFile.getPage(currentPage).then((page) => {
-      {
-        const viewport = page.getViewport({ scale: 1 });
-        const canvas = pageRenderRef.current;
-        const context = pageRenderRef.current.getContext("2d");
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport,
-          enableWebGL: false,
-        };
-        page.render(renderContext);
+    pdfFile.getPage(currentPage).then(async (page) => {
+      const viewport = page.getViewport({ scale: 1 });
+      const canvas = pageRenderRef.current;
+      const context = pageRenderRef.current.getContext("2d");
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport,
+        enableWebGL: false,
+      };
+      let renderTask = page.render(renderContext);
+      await renderTask.promise.then((complete) => {
+        console.log(complete);
         setImg(canvas.toDataURL());
-        console.log(pageRenderRef.current);
-      }
+      });
     });
   };
 
-  const uploadVideo = async () => {
-    console.log(img);
+  const uploadVideo = () => {
+    
     try {
       fetch("/api/upload", {
         method: "POST",
