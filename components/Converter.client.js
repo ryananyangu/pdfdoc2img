@@ -80,41 +80,36 @@ export default function Converter() {
   };
 
   return (
-    <div>
-      {img && (
-        <>
-          <img src={img} alt={name} />
-          <button onClick={uploadVideo}>Upload Image</button>
-        </>
-      )}
+    <div className="container">
+      <h1>Conversion of Documents to Images with Nextjs</h1>
+      <div className="row">
+        <div className="column">
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setSelectedFile(e.target.files[0])}
+          />
+          {selectedFile ? <h3>You have selected: {selectedFile.name}</h3> : ""}
+          {selectedFile && <button onClick={onConvert}>Convert</button>}
+        </div>
+        <div className="column">
+          {pdfFile && (
+            <>
+              <input
+                type="number"
+                placeholder="Page number"
+                value={currentPage}
+                onChange={(e) => setCurrentPage(parseInt(e.target.value))}
+                min="1"
+                max={pages}
+              />{' '}
+              <button onClick={uploadVideo}>Upload Image</button><br /><br />
+              <canvas ref={pageRenderRef} width="100" height="200"></canvas>
+            </>
+          )}
 
-      <div>
-        <input
-          type="text"
-          placeholder="Selected File name"
-          value={selectedFile ? selectedFile.name : ""}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {pdfFile && (
-          <>
-            <canvas ref={pageRenderRef} width="100" height="200"></canvas>
-            <input
-              type="number"
-              placeholder="Page number"
-              value={currentPage}
-              onChange={(e) => setCurrentPage(parseInt(e.target.value))}
-              min="1"
-              max={pages}
-            />
-          </>
-        )}
 
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => setSelectedFile(e.target.files[0])}
-        />
-        {selectedFile && <button onClick={onConvert}>Convert</button>}
+        </div>
       </div>
     </div>
   );
